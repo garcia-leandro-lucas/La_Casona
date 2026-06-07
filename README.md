@@ -46,17 +46,17 @@ La solución propuesta permite administrar mesas, mozos, productos, categorías 
 
 ## 📖 Justificación de las decisiones de diseño tomadas frente a los requerimientos del cliente.
 
-El diseño de la base de datos se realizó para centralizar la información del restaurante **La Casona** y mejorar el control de los pedidos.
+La solución propuesta permite administrar mesas, mozos, productos, categorías y pedidos, centralizando la información y mejorando el control de la operación diaria del restaurante **La Casona**.
 
-Se creó la entidad **Mesa** para gestionar la capacidad y estado de las mesas, y **Mozo** para identificar al personal responsable de la atención.
+El diseño de la base de datos se realizó con el objetivo de organizar y optimizar la gestión de los pedidos. Se incorporó la entidad **Salón**, que agrupa las **Mesas**, permitiendo administrar su capacidad y estado, y la entidad **Mozo**, para identificar al personal responsable de la atención.
 
-La entidad **Pedido** permite registrar cada orden realizada por los clientes, mientras que **Producto** y **Categoría** organizan la oferta del restaurante sin redundancia de datos.
+La entidad **Pedido** registra cada orden realizada por los clientes, mientras que **Producto** y **Categoría** estructuran la oferta del restaurante evitando redundancia de datos.
 
-Se incorporó **DetallePedido** como entidad intermedia para resolver la relación muchos a muchos entre pedidos y productos, registrando además cantidades y precios.
+Se incorporó la entidad intermedia **Detalle de Pedido** para resolver la relación muchos a muchos entre pedidos y productos, permitiendo además almacenar la cantidad y el precio correspondiente.
 
-El modelo fue normalizado hasta 3FN para evitar redundancia e inconsistencias, utilizando claves primarias y foráneas para mantener la integridad de los datos.
+El modelo fue normalizado hasta **3FN** con el objetivo de evitar redundancias e inconsistencias, utilizando claves primarias y foráneas para garantizar la integridad de los datos.
 
-Finalmente, el diseño es escalable y permite incorporar nuevas funcionalidades como reservas o facturación sin modificar la estructura principal.
+Finalmente, el diseño es escalable y permite incorporar futuras funcionalidades como reservas o facturación sin modificar la estructura principal.
 
 <hr>
 
