@@ -40,9 +40,23 @@
 
 ## 📖 Descripción del Proyecto
 
-Este trabajo práctico consiste en el análisis, diseño e implementación de una base de datos para la gestión integral de un restaurante, La Casona.
+Este trabajo práctico consiste en el análisis, diseño e implementación de una base de datos para la gestión integral de un restaurante, **La Casona**.
 
 La solución propuesta permite administrar mesas, mozos, productos, categorías y pedidos, centralizando la información y mejorando el seguimiento de la operación diaria del establecimiento.
+
+## 📖 Justificación de las decisiones de diseño tomadas frente a los requerimientos del cliente.
+
+El diseño de la base de datos se realizó para centralizar la información del restaurante **La Casona** y mejorar el control de los pedidos.
+
+Se creó la entidad **Mesa** para gestionar la capacidad y estado de las mesas, y **Mozo** para identificar al personal responsable de la atención.
+
+La entidad **Pedido** permite registrar cada orden realizada por los clientes, mientras que **Producto** y **Categoría** organizan la oferta del restaurante sin redundancia de datos.
+
+Se incorporó **DetallePedido** como entidad intermedia para resolver la relación muchos a muchos entre pedidos y productos, registrando además cantidades y precios.
+
+El modelo fue normalizado hasta 3FN para evitar redundancia e inconsistencias, utilizando claves primarias y foráneas para mantener la integridad de los datos.
+
+Finalmente, el diseño es escalable y permite incorporar nuevas funcionalidades como reservas o facturación sin modificar la estructura principal.
 
 <hr>
 

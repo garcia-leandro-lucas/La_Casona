@@ -3,10 +3,12 @@ USE La_Casona_Restaurante;
 --
 -- INSERT
 --
--- Registrar una nueva mesa con capacidad 6 y estado "Libre" en el Salón Principal (id_salon = 1).
+-- DML 1
+-- Se registra una nueva mesa con capacidad 6 y estado "Libre" en el Salón Principal (id_salon = 1).
 INSERT INTO mesa (numero, capacidad, estado, id_salon)
 VALUES (13, 6, 'Libre', 1);
 
+-- DML 2
 -- Se crear una nueva categoría llamada "Menú Ejecutivo" e insertar al menos un producto asociados, incluyendo su descripción, precio y categoría correspondiente.
 INSERT INTO categoria (nombre)
 VALUES ('Menú Ejecutivo');
@@ -18,30 +20,35 @@ INSERT INTO producto (nombre, descripcion, precio, id_categoria)
 --
 -- UPDATE
 --
--- Cambiar un pedido de Pendiente a En preparación
-UPDATE pedido SET estado = 'En preparación'
-WHERE id_pedido = 4 AND estado = 'Pendiente';
+-- DML 3
+-- Se cambia un pedido de "Pendiente" a "En preparación"
+select * from pedido;
+UPDATE pedido SET estado = 'En preparación' WHERE id_pedido = 4;
 
+-- DML 4
 -- Modificar el nombre de una categoría (Ensaladas -> Ensaladas y Verdes)
-UPDATE categoría SET nombre = 'Ensaladas y Verdes' WHERE nombre = 'Ensaladas';
+select * from categoria;
+UPDATE categoria SET nombre = 'Ensaladas y Verdes' WHERE id_categoria = 6;
 
--- Modificar el precio de todos los productos de la categoría "Bebidas", aumentando un 10%.
-UPDATE producto SET precio = precio * 1.10
-WHERE id_categoria IN (SELECT id_categoria FROM categoría WHERE nombre = 'Bebidas');
-
+-- DML 5
 -- Aumentar en 2 la capacidad de las mesas del salón "Terraza"
 UPDATE mesa SET capacidad = capacidad + 2 WHERE id_salon IN (SELECT id_salon FROM salon WHERE nombre = 'Terraza');
+
+-- DML 6
+-- Modificar el precio de todos los productos de la categoría "Bebidas", aumentando un 10%.
+UPDATE producto SET precio = precio * 1.10
+WHERE id_categoria IN (SELECT id_categoria FROM categoria WHERE nombre = 'Bebidas');
 
 --
 -- DELETE
 --
--- Eliminar detalles de pedido con cantidad igual a cero
-DELETE FROM detalle_de_pedido
-WHERE cantidad = 0;
 
+-- DML 7
 -- Eliminar los pedidos que se encuentren en estado "Cancelado".
+Select * from pedido;
 DELETE FROM pedido
-WHERE estado = 'Cancelado';
+WHERE estado = "Cancelado";
 
+-- DML 8
 -- Eliminar las mesas que no tengan pedidos registrados
 DELETE FROM mesa WHERE id_mesa NOT IN (SELECT id_mesa FROM pedido);
