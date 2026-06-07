@@ -12,7 +12,7 @@
 
 **Carrera:** Licenciatura en Sistemas
 
-**Materia:** Ingeniería de Software I (Introducción a las Bases de Datos)
+**Materia:** Introducción a las Bases de Datos
 
 <hr>
 
@@ -27,12 +27,12 @@
 <hr>
 
 ### 👨‍🏫 Docentes
-**Lic. Javier Vescio**
+**Lic. Javier Vescio**<br>
 **Lic. Marcelo Wolf**
 
 <hr>
 
-📅 **Año 2026**
+📅 **AÑO 2026**
 
 </div>
 
@@ -49,14 +49,16 @@ La solución propuesta permite administrar mesas, mozos, productos, categorías 
 ## 📂 Contenido del Repositorio
 
 ```text
-📦 La_Casona
+📂 La_Casona
  ┣ 📂 Diagramas
  ┃ ┣ 📄 DER-La-Casona.pdf
  ┃ ┗ 📄 diagrama_conceptual_la_casona.pdf
+ ┣ 📂 images
  ┣ 📂 SQL
  ┃ ┣ 📄 01_creacion_de_tablas_restaurante.sql
  ┃ ┣ 📄 02_insercion_datos_restaurante.sql
- ┃ ┗ 📄 03_consultas.sql
+ ┃ ┣ 📄 03_consultas.sql
+ ┃ ┗ 📄 04_dml.sql
  ┗ 📄 README.md
 ```
 
@@ -812,5 +814,194 @@ ORDER BY total_generado DESC;
 <p align="center">
   <img src="images/consultas/consulta_31.png" alt="Resultado de la consulta 31" width="800">
 </p>
+
+<hr>
+
+## 📊  Modificación de Datos (INSERT / UPDATE / DELETE)
+
+### ➕ INSERT
+
+##### 📝 DML 1
+<p>
+<strong style="color:#1b2d49">Se registra una nueva mesa con capacidad 6 y estado "Libre" en el Salón Principal (id_salon = 1).</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+INSERT INTO mesa (numero, capacidad, estado, id_salon)
+VALUES (13, 6, 'Libre', 1);
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_32.png" alt="Resultado de la consulta 31" width="800">
+</p>
+
+<hr>
+
+##### 📝 DML 2
+<p>
+<strong style="color:#1b2d49">Se crear una nueva categoría llamada "Menú Ejecutivo" e insertar al menos un producto asociados, incluyendo su descripción, precio y categoría correspondiente.</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+INSERT INTO categoria (nombre)
+VALUES ('Menú Ejecutivo');
+```
+```sql
+INSERT INTO producto (nombre, descripcion, precio, id_categoria)
+	VALUES ('Menú Ejecutivo Milanesa 1', 'Milanesa con guarnición y bebida incluida', 4500,
+	(SELECT id_categoria FROM categoria WHERE nombre = 'Menú Ejecutivo'));
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_33.png" alt="Resultado de la consulta 31" width="800">
+  <img src="images/consultas/consulta_34.png" alt="Resultado de la consulta 31" width="800">
+</p>
+
+<hr>
+
+### ✏️ UPDATE
+
+##### 📝 DML 3
+<p>
+<strong style="color:#1b2d49">Se cambia un pedido de "Pendiente" a "En preparación"</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+UPDATE pedido SET estado = 'En preparación' WHERE id_pedido = 4;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <p>Antes:</p>
+  <img src="images/consultas/consulta_35.png" alt="Resultado de la consulta 31" width="800">
+  <br>
+  <br>
+  <p>Despues:</p>
+  <img src="images/consultas/consulta_36.png" alt="Resultado de la consulta 31" width="800">
+</p>
+
+<hr>
+
+##### 📝 DML 4
+<p>
+<strong style="color:#1b2d49">Modificar el nombre de una categoría (Ensaladas -> Ensaladas y Verdes)</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+UPDATE categoria SET nombre = 'Ensaladas y Verdes' WHERE id_categoria = 6;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <p>Antes:</p>
+  <img src="images/consultas/consulta_37.png" alt="Resultado de la consulta 31" width="800">
+  <br>
+  <br>
+  <p>Despues:</p>
+  <img src="images/consultas/consulta_38.png" alt="Resultado de la consulta 31" width="800">
+</p>
+
+<hr>
+
+##### 📝 DML 5
+<p>
+<strong style="color:#1b2d49">Aumentar en 2 la capacidad de las mesas del salón "Terraza"</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+UPDATE mesa SET capacidad = capacidad + 2 WHERE id_salon IN (SELECT id_salon FROM salon WHERE nombre = 'Terraza');
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <p>Antes:</p>
+  <img src="images/consultas/consulta_39.png" alt="Resultado de la consulta 31" width="800">
+  <br>
+  <br>
+  <p>Despues:</p>
+  <img src="images/consultas/consulta_40.png" alt="Resultado de la consulta 31" width="800">
+</p>
+
+<hr>
+
+##### 📝 DML 6
+<p>
+<strong style="color:#1b2d49">Modificar el precio de todos los productos de la categoría "Bebidas", aumentando un 10%.</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+UPDATE producto SET precio = precio * 1.10
+WHERE id_categoria IN (SELECT id_categoria FROM categoria WHERE nombre = 'Bebidas');
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <p>Antes:</p>
+  <img src="images/consultas/consulta_41.png" alt="Resultado de la consulta 31" width="800">
+  <br>
+  <br>
+  <p>Despues:</p>
+  <img src="images/consultas/consulta_42.png" alt="Resultado de la consulta 31" width="800">
+</p>
+
+<hr>
+
+### 🗑️ DELETE
+
+##### 📝 DML 7
+<p>
+<strong style="color:#1b2d49">Eliminar los pedidos que se encuentren en estado "Cancelado".</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+DELETE FROM pedido
+WHERE estado = "Cancelado";
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <p>Antes:</p>
+  <img src="images/consultas/consulta_43.png" alt="Resultado de la consulta 31" width="800">
+  <br>
+  <br>
+  <p>Despues:</p>
+  <img src="images/consultas/consulta_44.png" alt="Resultado de la consulta 31" width="800">
+</p>
+
+<hr>
+
+##### 📝 DML 8
+<p>
+<strong style="color:#1b2d49">Eliminar las mesas que no tengan pedidos registrados.</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+DELETE FROM mesa WHERE id_mesa NOT IN (SELECT id_mesa FROM pedido);
+```
 
 <hr>
