@@ -1,5 +1,4 @@
 USE La_Casona_restaurante;
--- Filtros where
 
 -- Productos de Bebidas o Postres cuyo precio no sea $1500 ni $2000, de mayor a menor precio
 SELECT producto.nombre, producto.precio, categoria.nombre AS categoría FROM producto
@@ -16,8 +15,6 @@ ORDER BY producto.precio DESC;
 SELECT producto.nombre, producto.precio, categoria.nombre AS categoría FROM producto
 JOIN categoria ON producto.id_categoria = categoria.id_categoria
 WHERE (categoria.nombre = 'Entradas' AND producto.precio > 3000) OR categoria.nombre = 'Pizzas';
-
--- Algunas con joins entre multiples tablas
 
 -- Mostrar el nombre de la categoría, el nombre del producto, la cantidad solicitada y la fecha del pedido.
 SELECT categoria.nombre,producto.nombre,detalle_de_pedido.cantidad, pedido.fecha FROM categoria
@@ -55,8 +52,6 @@ SELECT mesa.numero,mesa.capacidad, pedido.id_pedido FROM mesa
 LEFT JOIN pedido ON mesa.id_mesa = pedido.id_mesa
 ORDER BY mesa.numero;
 
--- Subconsultas
-
 -- Productos con precio mayor al promedio general, de mayor a menor
 SELECT producto.nombre, producto.precio, categoria.nombre AS categoría FROM producto
 JOIN categoria ON producto.id_categoria = categoria.id_categoria
@@ -77,8 +72,6 @@ WHERE id_producto IN (SELECT id_producto FROM detalle_de_pedido WHERE id_pedido
 IN (SELECT id_pedido FROM pedido WHERE id_mesa
 IN (SELECT id_mesa FROM mesa WHERE capacidad > 6)));
 
--- Group by
-
 -- Cantidad de productos por categoría, de mayor a menor
 SELECT categoria.nombre AS categoria, COUNT(producto.id_producto) AS cantidad_productos FROM categoria
 LEFT JOIN producto ON categoria.id_categoria = producto.id_categoria
@@ -93,8 +86,6 @@ JOIN detalle_de_pedido ON producto.id_producto = detalle_de_pedido.id_producto
 GROUP BY categoria.id_categoria, categoria.nombre
 ORDER BY total_vendido DESC;
 
--- SUM
-
 -- Recaudación potencial de cada categoría (suma de precios de sus productos), de mayor a menor
 SELECT categoria.nombre AS categoria, SUM(producto.precio) AS recaudacion_potencial FROM categoria
 JOIN producto ON categoria.id_categoria = producto.id_categoria
@@ -106,8 +97,6 @@ SELECT producto.nombre,SUM(detalle_de_pedido.cantidad) AS cantidad_vendida FROM 
 INNER JOIN detalle_de_pedido ON producto.id_producto = detalle_de_pedido.id_producto
 GROUP BY producto.id_producto, producto.nombre
 ORDER BY cantidad_vendida DESC;
-
--- Count
 
 -- Mostrar cada salón y la cantidad de pedidos realizados en sus mesas.
 SELECT salon.nombre, COUNT(pedido.id_pedido) AS cantidad_pedidos FROM salon
@@ -122,14 +111,11 @@ LEFT JOIN pedido ON mozo.id_mozo = pedido.id_mozo
 GROUP BY mozo.id_mozo, mozo.nombre, mozo.apellido
 ORDER BY pedidos_atendidos DESC;
 
--- AVG
 -- Calcular el precio promedio de los productos de cada categoría
 SELECT categoria.nombre,AVG(producto.precio) AS precio_promedio FROM categoria
 INNER JOIN producto ON categoria.id_categoria = producto.id_categoria
 GROUP BY categoria.nombre
 ORDER BY precio_promedio DESC;
-
--- MAX
 
 -- Cuál es el producto más caro de cada categoría
 SELECT categoria.nombre, MAX(producto.precio) AS precio_maximo FROM categoria
@@ -140,5 +126,91 @@ GROUP BY categoria.nombre;
 SELECT salon.nombre, MIN(mesa.capacidad) AS capacidad_minima FROM salon
 INNER JOIN mesa ON salon.id_salon = mesa.id_salon
 GROUP BY salon.nombre;
+
+-- Pedidos realizados durante mayo que no estén cancelados y que hayan sido registrados por un mozo determinado.
+SELECT * FROM pedido
+WHERE MONTH(fecha) = 5 AND (estado != "Cancelado") AND (id_mozo IS NOT NULL);
+
+-- Productos cuyo precio se encuentre entre $2500 y $5000 y que hayan sido vendidos al menos una vez.
+SELECT producto.nombre AS Producto, producto.precio FROM producto
+	INNER JOIN detalle_de_pedido
+	ON producto.id_producto = detalle_de_pedido.id_producto
+WHERE producto.PRECIO BETWEEN 2500 AND 5000;
+
+-- Mostrar la información de los pedidos cuyo estado sea "Cobrado" y que hayan sido atendidos por los mozos 3 o 5,
+-- indicando el número de pedido, fecha, hora, estado, nombre y apellido del mozo.
+SELECT pedido.id_pedido, mozo.nombre, mozo.apellido, pedido.fecha, pedido.hora, pedido.estado  FROM pedido
+	INNER JOIN mozo
+	ON pedido.id_mozo = mozo.id_mozo
+WHERE (mozo.id_mozo = 3 OR mozo.id_mozo = 5) AND estado = "Cobrado";
+
+-- Mostrar todos los datos de los productos que incluyan la palabra "Pizza" en su nombre y cuyo precio supere los $3500.
+SELECT nombre, precio FROM producto
+WHERE nombre LIKE "%Pizza%" AND precio > 3500;
+
+-- Mostrar el detalle de todos los pedidos, indicando el número de pedido, nombre del producto, cantidad solicitada, 
+-- precio unitario y subtotal correspondiente a cada ítem.
+SELECT detalle_de_pedido.id_pedido,
+       producto.nombre AS producto,
+       detalle_de_pedido.cantidad,
+       producto.precio AS Precio_unitario,
+       detalle_de_pedido.cantidad * producto.precio AS Subtotal
+FROM detalle_de_pedido
+INNER JOIN producto
+    ON detalle_de_pedido.id_producto = producto.id_producto
+ORDER BY detalle_de_pedido.id_pedido;
+
+-- Mostrar todos los pedidos indicando el número de pedido,
+-- el nombre del mozo responsable, junto a su legajo y el número de mesa asociada.
+SELECT pedido.id_pedido AS Pedido, mozo.nombre, mozo.legajo, pedido.id_mesa AS Mesa FROM pedido
+INNER JOIN mozo
+ON pedido.id_mozo = mozo.id_mozo
+INNER JOIN mesa
+ON pedido.id_mesa = mesa.id_mesa;
+
+-- Mostrar qué productos fueron solicitados en la mesa número 8
+-- indicando cantidad, precio unitario y el total por cada producto.
+SELECT mesa.numero AS numero_de_mesa, producto.nombre, SUM(detalle_de_pedido.cantidad) AS cantidad_solicitada, detalle_de_pedido.precio_unitario,  SUM(detalle_de_pedido.cantidad * detalle_de_pedido.precio_unitario) AS total
+	FROM detalle_de_pedido
+	INNER JOIN pedido
+	ON detalle_de_pedido.id_pedido = pedido.id_pedido
+	INNER JOIN producto
+	ON detalle_de_pedido.id_producto = producto.id_producto
+	INNER JOIN mesa
+	ON pedido.id_mesa = mesa.id_mesa
+	WHERE mesa.numero = 8
+GROUP BY mesa.numero, producto.nombre, detalle_de_pedido.precio_unitario;
+
+-- Productos pertenecientes a la categoría cuyo precio promedio sea el más alto
+SELECT p.nombre,
+       p.precio,(
+           SELECT c.nombre
+           FROM categoria c
+           WHERE c.id_categoria = p.id_categoria) AS categoria
+FROM producto p
+WHERE p.id_categoria = ( SELECT id_categoria FROM producto
+    GROUP BY id_categoria
+    ORDER BY AVG(precio) DESC
+    LIMIT 1 );
+    
+-- Mostrar cuántas mesas fueron atendidas por cada mozo, indicando también la cantidad de pedidos registrados y
+-- ordenando los resultados de mayor a menor según la cantidad de pedidos registrados.
+SELECT mozo.nombre, mozo.apellido, COUNT(DISTINCT pedido.id_mesa) AS mesas_atendidas,
+       COUNT(pedido.id_pedido) AS pedidos_registrados FROM mozo
+INNER JOIN pedido
+    ON mozo.id_mozo = pedido.id_mozo
+GROUP BY mozo.id_mozo, mozo.nombre, mozo.apellido
+ORDER BY COUNT(pedido.id_pedido) DESC;
+
+-- Mostrar cuánto dinero generó cada mesa durante el período analizado.
+SELECT mesa.numero AS numero_de_mesa, MONTH(pedido.fecha) AS mes,
+       SUM(detalle_de_pedido.cantidad * detalle_de_pedido.precio_unitario) AS total_generado
+FROM mesa
+INNER JOIN pedido
+    ON mesa.id_mesa = pedido.id_mesa
+INNER JOIN detalle_de_pedido
+    ON pedido.id_pedido = detalle_de_pedido.id_pedido
+GROUP BY mesa.id_mesa, mesa.numero, MONTH(pedido.fecha)
+ORDER BY total_generado DESC;
 
 

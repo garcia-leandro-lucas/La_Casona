@@ -86,21 +86,3 @@ CREATE TABLE detalle_de_pedido (
     FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido),
     FOREIGN KEY (id_producto) REFERENCES producto(id_producto)
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

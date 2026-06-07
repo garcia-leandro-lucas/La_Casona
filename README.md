@@ -19,7 +19,6 @@
 ### 👥 Grupo N° 1
 
 **Integrantes**
-
 Pergola Ana Laura
 Leandro Lucas Garcia Kristeff Secoff
 Sebastian Nogues
@@ -27,7 +26,6 @@ Sebastian Nogues
 ---
 
 ### 👨‍🏫 Docentes
-
 **Lic. Javier Vescio**
 **Lic. Marcelo Wolf**
 
