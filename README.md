@@ -78,7 +78,155 @@ Finalmente, el diseño es escalable y permite incorporar futuras funcionalidades
 
 <hr>
 
-## 📊 Consultas SQL
+## 📊 Consultas SQL(JOINs entre múltiples tablas)
+
+##### 📝 Consulta 1
+<p>
+    <strong style="color:#1b2d49">Productos de Entradas con precio mayor a $3000, o que pertenezcan a Pizzas</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT categoria.nombre,producto.nombre,detalle_de_pedido.cantidad, pedido.fecha FROM categoria
+INNER JOIN producto ON categoria.id_categoria = producto.id_categoria
+INNER JOIN detalle_de_pedido ON producto.id_producto = detalle_de_pedido.id_producto
+INNER JOIN pedido ON detalle_de_pedido.id_pedido = pedido.id_pedido;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_3.png"
+       alt="Resultado de la consulta total generado por mesa"
+       width="800">
+</p>
+
+<hr>
+
+##### 📝 Consulta 2
+<p>
+    <strong style="color:#1b2d49">Nombre de cada producto con su categoría y precio, ordenado por categoría</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT categoria.nombre AS categoria, producto.nombre AS producto, producto.precio FROM producto
+JOIN categoria ON producto.id_categoria = categoria.id_categoria
+ORDER BY categoria.nombre, producto.nombre;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_4.png"
+       alt="Resultado de la consulta total generado por mesa"
+       width="800">
+</p>
+
+<hr>
+
+
+##### 📝 Consulta 3
+
+<p>
+<strong style="color:#1b2d49">Mostrar ID y fecha del pedido, nombre del producto, cantidad solicitada y apellido del mozo</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT pedido.id_pedido, pedido.fecha, producto.nombre, detalle_de_pedido.cantidad, mozo.apellido
+FROM pedido
+INNER JOIN detalle_de_pedido ON pedido.id_pedido = detalle_de_pedido.id_pedido
+INNER JOIN producto ON detalle_de_pedido.id_producto = producto.id_producto
+LEFT JOIN mozo ON pedido.id_mozo = mozo.id_mozo;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_6.png" alt="Resultado de la consulta 6" width="800">
+</p>
+
+<hr>
+
+##### 📝 Consulta 4
+
+<p>
+<strong style="color:#1b2d49">Listar todas las mesas y los IDs de los pedidos realizados en cada una</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT mesa.numero, mesa.capacidad, pedido.id_pedido
+FROM mesa
+LEFT JOIN pedido ON mesa.id_mesa = pedido.id_mesa
+ORDER BY mesa.numero;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_8.png" alt="Resultado de la consulta 8" width="800">
+</p>
+
+<hr>
+
+##### 📝 Consulta 5
+
+<p>
+<strong style="color:#1b2d49">Mostrar el detalle de todos los pedidos con número de pedido, nombre del producto, cantidad, precio unitario y subtotal</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT detalle_de_pedido.id_pedido,
+       producto.nombre AS producto,
+       detalle_de_pedido.cantidad,
+       producto.precio AS Precio_unitario,
+       detalle_de_pedido.cantidad * producto.precio AS Subtotal
+FROM detalle_de_pedido
+INNER JOIN producto
+    ON detalle_de_pedido.id_producto = producto.id_producto
+ORDER BY detalle_de_pedido.id_pedido;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_26.png" alt="Resultado de la consulta 26" width="800">
+</p>
+
+<hr>
+
+##### 📝 Consulta 6
+
+<p>
+<strong style="color:#1b2d49">Mostrar todos los pedidos con número de pedido, nombre del mozo, su legajo y el número de mesa asociada</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT pedido.id_pedido AS Pedido, mozo.nombre, mozo.legajo, pedido.id_mesa AS Mesa
+FROM pedido
+INNER JOIN mozo ON pedido.id_mozo = mozo.id_mozo
+INNER JOIN mesa ON pedido.id_mesa = mesa.id_mesa;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_27.png" alt="Resultado de la consulta 27" width="800">
+</p>
+
+<hr>
+
+## 📊 Consultas SQL(Filtros (WHERE))
 
 ##### 📝 Consulta 1
 <p>
@@ -128,149 +276,6 @@ ORDER BY producto.precio DESC;
 <hr>
 
 ##### 📝 Consulta 3
-<p>
-    <strong style="color:#1b2d49">Productos de Entradas con precio mayor a $3000, o que pertenezcan a Pizzas</strong>
-</p>
-
-##### 💻 Código SQL
-
-```sql
-SELECT categoria.nombre,producto.nombre,detalle_de_pedido.cantidad, pedido.fecha FROM categoria
-INNER JOIN producto ON categoria.id_categoria = producto.id_categoria
-INNER JOIN detalle_de_pedido ON producto.id_producto = detalle_de_pedido.id_producto
-INNER JOIN pedido ON detalle_de_pedido.id_pedido = pedido.id_pedido;
-```
-
-##### 📷 Resultado
-
-<p align="center">
-  <img src="images/consultas/consulta_3.png"
-       alt="Resultado de la consulta total generado por mesa"
-       width="800">
-</p>
-
-<hr>
-
-##### 📝 Consulta 4
-<p>
-    <strong style="color:#1b2d49">Nombre de cada producto con su categoría y precio, ordenado por categoría</strong>
-</p>
-
-##### 💻 Código SQL
-
-```sql
-SELECT categoria.nombre AS categoria, producto.nombre AS producto, producto.precio FROM producto
-JOIN categoria ON producto.id_categoria = categoria.id_categoria
-ORDER BY categoria.nombre, producto.nombre;
-```
-
-##### 📷 Resultado
-
-<p align="center">
-  <img src="images/consultas/consulta_4.png"
-       alt="Resultado de la consulta total generado por mesa"
-       width="800">
-</p>
-
-<hr>
-
-##### 📝 Consulta 5
-
-<p>
-<strong style="color:#1b2d49">Categorías vendidas en cada pedido con cantidad total de productos solicitados</strong>
-</p>
-
-##### 💻 Código SQL
-
-```sql
-SELECT pedido.id_pedido, categoria.nombre AS categoria, SUM(detalle_de_pedido.cantidad) AS total_productos FROM pedido
-JOIN detalle_de_pedido ON pedido.id_pedido = detalle_de_pedido.id_pedido
-JOIN producto ON detalle_de_pedido.id_producto = producto.id_producto
-JOIN categoria ON producto.id_categoria = categoria.id_categoria
-GROUP BY pedido.id_pedido, categoria.id_categoria, categoria.nombre
-ORDER BY pedido.id_pedido;
-```
-
-##### 📷 Resultado
-
-<p align="center">
-  <img src="images/consultas/consulta_5.png" alt="Resultado de la consulta 5" width="800">
-</p>
-
-<hr>
-
-##### 📝 Consulta 6
-
-<p>
-<strong style="color:#1b2d49">Mostrar ID y fecha del pedido, nombre del producto, cantidad solicitada y apellido del mozo</strong>
-</p>
-
-##### 💻 Código SQL
-
-```sql
-SELECT pedido.id_pedido, pedido.fecha, producto.nombre, detalle_de_pedido.cantidad, mozo.apellido
-FROM pedido
-INNER JOIN detalle_de_pedido ON pedido.id_pedido = detalle_de_pedido.id_pedido
-INNER JOIN producto ON detalle_de_pedido.id_producto = producto.id_producto
-LEFT JOIN mozo ON pedido.id_mozo = mozo.id_mozo;
-```
-
-##### 📷 Resultado
-
-<p align="center">
-  <img src="images/consultas/consulta_6.png" alt="Resultado de la consulta 6" width="800">
-</p>
-
-<hr>
-
-##### 📝 Consulta 7
-
-<p>
-<strong style="color:#1b2d49">Listar todos los mozos y la cantidad de pedidos que atendieron</strong>
-</p>
-
-##### 💻 Código SQL
-
-```sql
-SELECT mozo.nombre, mozo.apellido, COUNT(pedido.id_pedido) AS total_pedidos
-FROM mozo
-LEFT JOIN pedido ON mozo.id_mozo = pedido.id_mozo
-GROUP BY mozo.id_mozo, mozo.nombre, mozo.apellido
-ORDER BY total_pedidos DESC;
-```
-
-##### 📷 Resultado
-
-<p align="center">
-  <img src="images/consultas/consulta_7.png" alt="Resultado de la consulta 7" width="800">
-</p>
-
-<hr>
-
-##### 📝 Consulta 8
-
-<p>
-<strong style="color:#1b2d49">Listar todas las mesas y los IDs de los pedidos realizados en cada una</strong>
-</p>
-
-##### 💻 Código SQL
-
-```sql
-SELECT mesa.numero, mesa.capacidad, pedido.id_pedido
-FROM mesa
-LEFT JOIN pedido ON mesa.id_mesa = pedido.id_mesa
-ORDER BY mesa.numero;
-```
-
-##### 📷 Resultado
-
-<p align="center">
-  <img src="images/consultas/consulta_8.png" alt="Resultado de la consulta 8" width="800">
-</p>
-
-<hr>
-
-##### 📝 Consulta 9
 
 <p>
 <strong style="color:#1b2d49">Productos con precio mayor al promedio general, de mayor a menor</strong>
@@ -293,7 +298,7 @@ ORDER BY producto.precio DESC;
 
 <hr>
 
-##### 📝 Consulta 10
+##### 📝 Consulta 4
 
 <p>
 <strong style="color:#1b2d49">Mostrar los productos que fueron pedidos alguna vez</strong>
@@ -315,7 +320,7 @@ WHERE id_producto IN (SELECT id_producto FROM detalle_de_pedido);
 
 <hr>
 
-##### 📝 Consulta 11
+##### 📝 Consulta 5
 
 <p>
 <strong style="color:#1b2d49">Mostrar los mozos que registraron pedidos en estado 'Cobrado'</strong>
@@ -336,7 +341,7 @@ WHERE id_mozo IN (SELECT id_mozo FROM pedido WHERE estado = 'Cobrado');
 
 <hr>
 
-##### 📝 Consulta 12
+##### 📝 Consulta 6
 
 <p>
 <strong style="color:#1b2d49">Mostrar el nombre de los productos que fueron solicitados en mesas con capacidad mayor a 6 personas</strong>
@@ -359,222 +364,8 @@ IN (SELECT id_mesa FROM mesa WHERE capacidad > 6)));
 
 <hr>
 
-##### 📝 Consulta 13
 
-<p>
-<strong style="color:#1b2d49">Cantidad de productos por categoría, de mayor a menor</strong>
-</p>
-
-##### 💻 Código SQL
-
-```sql
-SELECT categoria.nombre AS categoria, COUNT(producto.id_producto) AS cantidad_productos FROM categoria
-LEFT JOIN producto ON categoria.id_categoria = producto.id_categoria
-GROUP BY categoria.id_categoria, categoria.nombre
-ORDER BY cantidad_productos DESC;
-```
-
-##### 📷 Resultado
-
-<p align="center">
-  <img src="images/consultas/consulta_13.png" alt="Resultado de la consulta 13" width="800">
-</p>
-
-<hr>
-
-##### 📝 Consulta 14
-
-<p>
-<strong style="color:#1b2d49">Cantidad total de productos vendidos por categoría</strong>
-</p>
-
-##### 💻 Código SQL
-
-```sql
-SELECT categoria.nombre AS categoria, SUM(detalle_de_pedido.cantidad) AS total_vendido
-FROM categoria
-JOIN producto ON categoria.id_categoria = producto.id_categoria
-JOIN detalle_de_pedido ON producto.id_producto = detalle_de_pedido.id_producto
-GROUP BY categoria.id_categoria, categoria.nombre
-ORDER BY total_vendido DESC;
-```
-
-##### 📷 Resultado
-
-<p align="center">
-  <img src="images/consultas/consulta_14.png" alt="Resultado de la consulta 14" width="800">
-</p>
-
-<hr>
-
-##### 📝 Consulta 15
-
-<p>
-<strong style="color:#1b2d49">Recaudación potencial de cada categoría (suma de precios de sus productos), de mayor a menor</strong>
-</p>
-
-##### 💻 Código SQL
-
-```sql
-SELECT categoria.nombre AS categoria, SUM(producto.precio) AS recaudacion_potencial
-FROM categoria
-JOIN producto ON categoria.id_categoria = producto.id_categoria
-GROUP BY categoria.id_categoria, categoria.nombre
-ORDER BY recaudacion_potencial DESC;
-```
-
-##### 📷 Resultado
-
-<p align="center">
-  <img src="images/consultas/consulta_15.png" alt="Resultado de la consulta 15" width="800">
-</p>
-
-<hr>
-
-##### 📝 Consulta 16
-
-<p>
-<strong style="color:#1b2d49">Mostrar el nombre de cada producto y la cantidad total vendida</strong>
-</p>
-
-##### 💻 Código SQL
-
-```sql
-SELECT producto.nombre, SUM(detalle_de_pedido.cantidad) AS cantidad_vendida
-FROM producto
-INNER JOIN detalle_de_pedido ON producto.id_producto = detalle_de_pedido.id_producto
-GROUP BY producto.id_producto, producto.nombre
-ORDER BY cantidad_vendida DESC;
-```
-
-##### 📷 Resultado
-
-<p align="center">
-  <img src="images/consultas/consulta_16.png" alt="Resultado de la consulta 16" width="800">
-</p>
-
-<hr>
-
-##### 📝 Consulta 17
-
-<p>
-<strong style="color:#1b2d49">Mostrar cada salón y la cantidad de pedidos realizados en sus mesas</strong>
-</p>
-
-##### 💻 Código SQL
-
-```sql
-SELECT salon.nombre, COUNT(pedido.id_pedido) AS cantidad_pedidos
-FROM salon
-INNER JOIN mesa ON salon.id_salon = mesa.id_salon
-LEFT JOIN pedido ON mesa.id_mesa = pedido.id_mesa
-GROUP BY salon.id_salon, salon.nombre
-ORDER BY cantidad_pedidos DESC;
-```
-
-##### 📷 Resultado
-
-<p align="center">
-  <img src="images/consultas/consulta_17.png" alt="Resultado de la consulta 17" width="800">
-</p>
-
-<hr>
-
-##### 📝 Consulta 18
-
-<p>
-<strong style="color:#1b2d49">Listar los mozos ordenados por la cantidad de pedidos atendidos</strong>
-</p>
-
-##### 💻 Código SQL
-
-```sql
-SELECT mozo.nombre, mozo.apellido, COUNT(pedido.id_pedido) AS pedidos_atendidos
-FROM mozo
-LEFT JOIN pedido ON mozo.id_mozo = pedido.id_mozo
-GROUP BY mozo.id_mozo, mozo.nombre, mozo.apellido
-ORDER BY pedidos_atendidos DESC;
-```
-
-##### 📷 Resultado
-
-<p align="center">
-  <img src="images/consultas/consulta_18.png" alt="Resultado de la consulta 18" width="800">
-</p>
-
-<hr>
-
-##### 📝 Consulta 19
-
-<p>
-<strong style="color:#1b2d49">Calcular el precio promedio de los productos de cada categoría</strong>
-</p>
-
-##### 💻 Código SQL
-
-```sql
-SELECT categoria.nombre, AVG(producto.precio) AS precio_promedio
-FROM categoria
-INNER JOIN producto ON categoria.id_categoria = producto.id_categoria
-GROUP BY categoria.nombre
-ORDER BY precio_promedio DESC;
-```
-
-##### 📷 Resultado
-
-<p align="center">
-  <img src="images/consultas/consulta_19.png" alt="Resultado de la consulta 19" width="800">
-</p>
-
-<hr>
-
-##### 📝 Consulta 20
-
-<p>
-<strong style="color:#1b2d49">Cuál es el producto más caro de cada categoría</strong>
-</p>
-
-##### 💻 Código SQL
-
-```sql
-SELECT categoria.nombre, MAX(producto.precio) AS precio_maximo
-FROM categoria
-INNER JOIN producto ON categoria.id_categoria = producto.id_categoria
-GROUP BY categoria.nombre;
-```
-
-##### 📷 Resultado
-
-<p align="center">
-  <img src="images/consultas/consulta_20.png" alt="Resultado de la consulta 20" width="800">
-</p>
-
-<hr>
-
-##### 📝 Consulta 21
-
-<p>
-<strong style="color:#1b2d49">Mostrar la capacidad mínima de las mesas de cada salón</strong>
-</p>
-
-##### 💻 Código SQL
-
-```sql
-SELECT salon.nombre, MIN(mesa.capacidad) AS capacidad_minima
-FROM salon
-INNER JOIN mesa ON salon.id_salon = mesa.id_salon
-GROUP BY salon.nombre;
-```
-
-##### 📷 Resultado
-
-<p align="center">
-  <img src="images/consultas/consulta_21.png" alt="Resultado de la consulta 21" width="800">
-</p>
-
-<hr>
-
-##### 📝 Consulta 22
+##### 📝 Consulta 7
 
 <p>
 <strong style="color:#1b2d49">Pedidos realizados durante mayo que no estén cancelados y que hayan sido registrados por un mozo</strong>
@@ -598,7 +389,7 @@ WHERE MONTH(fecha) = 5
 
 <hr>
 
-##### 📝 Consulta 23
+##### 📝 Consulta 8
 
 <p>
 <strong style="color:#1b2d49">Productos cuyo precio se encuentre entre $2500 y $5000 y que hayan sido vendidos al menos una vez</strong>
@@ -621,7 +412,7 @@ WHERE producto.precio BETWEEN 2500 AND 5000;
 
 <hr>
 
-##### 📝 Consulta 24
+##### 📝 Consulta 9
 
 <p>
 <strong style="color:#1b2d49">Pedidos en estado "Cobrado" atendidos por los mozos 3 o 5, con número de pedido, fecha, hora, estado y datos del mozo</strong>
@@ -645,7 +436,7 @@ WHERE (mozo.id_mozo = 3 OR mozo.id_mozo = 5)
 
 <hr>
 
-##### 📝 Consulta 25
+##### 📝 Consulta 10
 
 <p>
 <strong style="color:#1b2d49">Mostrar todos los datos de los productos que incluyan la palabra "Pizza" en su nombre y cuyo precio supere los $3500</strong>
@@ -668,87 +459,7 @@ WHERE nombre LIKE '%Pizza%'
 
 <hr>
 
-##### 📝 Consulta 26
-
-<p>
-<strong style="color:#1b2d49">Mostrar el detalle de todos los pedidos con número de pedido, nombre del producto, cantidad, precio unitario y subtotal</strong>
-</p>
-
-##### 💻 Código SQL
-
-```sql
-SELECT detalle_de_pedido.id_pedido,
-       producto.nombre AS producto,
-       detalle_de_pedido.cantidad,
-       producto.precio AS Precio_unitario,
-       detalle_de_pedido.cantidad * producto.precio AS Subtotal
-FROM detalle_de_pedido
-INNER JOIN producto
-    ON detalle_de_pedido.id_producto = producto.id_producto
-ORDER BY detalle_de_pedido.id_pedido;
-```
-
-##### 📷 Resultado
-
-<p align="center">
-  <img src="images/consultas/consulta_26.png" alt="Resultado de la consulta 26" width="800">
-</p>
-
-<hr>
-
-##### 📝 Consulta 27
-
-<p>
-<strong style="color:#1b2d49">Mostrar todos los pedidos con número de pedido, nombre del mozo, su legajo y el número de mesa asociada</strong>
-</p>
-
-##### 💻 Código SQL
-
-```sql
-SELECT pedido.id_pedido AS Pedido, mozo.nombre, mozo.legajo, pedido.id_mesa AS Mesa
-FROM pedido
-INNER JOIN mozo ON pedido.id_mozo = mozo.id_mozo
-INNER JOIN mesa ON pedido.id_mesa = mesa.id_mesa;
-```
-
-##### 📷 Resultado
-
-<p align="center">
-  <img src="images/consultas/consulta_27.png" alt="Resultado de la consulta 27" width="800">
-</p>
-
-<hr>
-
-##### 📝 Consulta 28
-
-<p>
-<strong style="color:#1b2d49">Mostrar qué productos fueron solicitados en la mesa número 8 con cantidad, precio unitario y total por producto</strong>
-</p>
-
-##### 💻 Código SQL
-
-```sql
-SELECT mesa.numero AS numero_de_mesa, producto.nombre,
-       SUM(detalle_de_pedido.cantidad) AS cantidad_solicitada,
-       detalle_de_pedido.precio_unitario,
-       SUM(detalle_de_pedido.cantidad * detalle_de_pedido.precio_unitario) AS total
-FROM detalle_de_pedido
-INNER JOIN pedido ON detalle_de_pedido.id_pedido = pedido.id_pedido
-INNER JOIN producto ON detalle_de_pedido.id_producto = producto.id_producto
-INNER JOIN mesa ON pedido.id_mesa = mesa.id_mesa
-WHERE mesa.numero = 8
-GROUP BY mesa.numero, producto.nombre, detalle_de_pedido.precio_unitario;
-```
-
-##### 📷 Resultado
-
-<p align="center">
-  <img src="images/consultas/consulta_28.png" alt="Resultado de la consulta 28" width="800">
-</p>
-
-<hr>
-
-##### 📝 Consulta 29
+##### 📝 Consulta 11
 
 <p>
 <strong style="color:#1b2d49">Productos pertenecientes a la categoría cuyo precio promedio sea el más alto</strong>
@@ -777,7 +488,106 @@ WHERE p.id_categoria = ( SELECT id_categoria FROM producto
 
 <hr>
 
-##### 📝 Consulta 30
+## 📊 Consultas SQL(Ordenamientos (ORDER BY))
+
+##### 📝 Consulta 1
+
+<p>
+<strong style="color:#1b2d49">Cantidad de productos por categoría, de mayor a menor</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT categoria.nombre AS categoria, COUNT(producto.id_producto) AS cantidad_productos FROM categoria
+LEFT JOIN producto ON categoria.id_categoria = producto.id_categoria
+GROUP BY categoria.id_categoria, categoria.nombre
+ORDER BY cantidad_productos DESC;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_13.png" alt="Resultado de la consulta 13" width="800">
+</p>
+
+<hr>
+
+
+##### 📝 Consulta 2
+
+<p>
+<strong style="color:#1b2d49">Recaudación potencial de cada categoría (suma de precios de sus productos), de mayor a menor</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT categoria.nombre AS categoria, SUM(producto.precio) AS recaudacion_potencial
+FROM categoria
+JOIN producto ON categoria.id_categoria = producto.id_categoria
+GROUP BY categoria.id_categoria, categoria.nombre
+ORDER BY recaudacion_potencial DESC;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_15.png" alt="Resultado de la consulta 15" width="800">
+</p>
+
+<hr>
+
+##### 📝 Consulta 3
+
+<p>
+<strong style="color:#1b2d49">Mostrar el nombre de cada producto y la cantidad total vendida</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT producto.nombre, SUM(detalle_de_pedido.cantidad) AS cantidad_vendida
+FROM producto
+INNER JOIN detalle_de_pedido ON producto.id_producto = detalle_de_pedido.id_producto
+GROUP BY producto.id_producto, producto.nombre
+ORDER BY cantidad_vendida DESC;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_16.png" alt="Resultado de la consulta 16" width="800">
+</p>
+
+<hr>
+
+
+##### 📝 Consulta 4
+
+<p>
+<strong style="color:#1b2d49">Listar los mozos ordenados por la cantidad de pedidos atendidos</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT mozo.nombre, mozo.apellido, COUNT(pedido.id_pedido) AS pedidos_atendidos
+FROM mozo
+LEFT JOIN pedido ON mozo.id_mozo = pedido.id_mozo
+GROUP BY mozo.id_mozo, mozo.nombre, mozo.apellido
+ORDER BY pedidos_atendidos DESC;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_18.png" alt="Resultado de la consulta 18" width="800">
+</p>
+
+<hr>
+
+##### 📝 Consulta 5
 
 <p>
 <strong style="color:#1b2d49">Mostrar cuántas mesas fueron atendidas por cada mozo, con cantidad de pedidos registrados, ordenado de mayor a menor</strong>
@@ -803,7 +613,7 @@ ORDER BY COUNT(pedido.id_pedido) DESC;
 
 <hr>
 
-##### 📝 Consulta 31
+##### 📝 Consulta 6
 
 <p>
 <strong style="color:#1b2d49">Mostrar cuánto dinero generó cada mesa durante el período analizado</strong>
@@ -830,6 +640,208 @@ ORDER BY total_generado DESC;
 </p>
 
 <hr>
+
+## 📊 Consultas SQL( GROUP BY y funciones de agregacion)
+
+##### 📝 Consulta 1
+
+<p>
+<strong style="color:#1b2d49">Categorías vendidas en cada pedido con cantidad total de productos solicitados</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT pedido.id_pedido, categoria.nombre AS categoria, SUM(detalle_de_pedido.cantidad) AS total_productos FROM pedido
+JOIN detalle_de_pedido ON pedido.id_pedido = detalle_de_pedido.id_pedido
+JOIN producto ON detalle_de_pedido.id_producto = producto.id_producto
+JOIN categoria ON producto.id_categoria = categoria.id_categoria
+GROUP BY pedido.id_pedido, categoria.id_categoria, categoria.nombre
+ORDER BY pedido.id_pedido;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_5.png" alt="Resultado de la consulta 5" width="800">
+</p>
+
+<hr>
+
+##### 📝 Consulta 2
+
+<p>
+<strong style="color:#1b2d49">Listar todos los mozos y la cantidad de pedidos que atendieron</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT mozo.nombre, mozo.apellido, COUNT(pedido.id_pedido) AS total_pedidos
+FROM mozo
+LEFT JOIN pedido ON mozo.id_mozo = pedido.id_mozo
+GROUP BY mozo.id_mozo, mozo.nombre, mozo.apellido
+ORDER BY total_pedidos DESC;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_7.png" alt="Resultado de la consulta 7" width="800">
+</p>
+
+<hr>
+
+##### 📝 Consulta 3
+
+<p>
+<strong style="color:#1b2d49">Cantidad total de productos vendidos por categoría</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT categoria.nombre AS categoria, SUM(detalle_de_pedido.cantidad) AS total_vendido
+FROM categoria
+JOIN producto ON categoria.id_categoria = producto.id_categoria
+JOIN detalle_de_pedido ON producto.id_producto = detalle_de_pedido.id_producto
+GROUP BY categoria.id_categoria, categoria.nombre
+ORDER BY total_vendido DESC;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_14.png" alt="Resultado de la consulta 14" width="800">
+</p>
+
+<hr>
+
+##### 📝 Consulta 4
+
+<p>
+<strong style="color:#1b2d49">Mostrar cada salón y la cantidad de pedidos realizados en sus mesas</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT salon.nombre, COUNT(pedido.id_pedido) AS cantidad_pedidos
+FROM salon
+INNER JOIN mesa ON salon.id_salon = mesa.id_salon
+LEFT JOIN pedido ON mesa.id_mesa = pedido.id_mesa
+GROUP BY salon.id_salon, salon.nombre
+ORDER BY cantidad_pedidos DESC;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_17.png" alt="Resultado de la consulta 17" width="800">
+</p>
+
+<hr>
+
+##### 📝 Consulta 5
+
+<p>
+<strong style="color:#1b2d49">Calcular el precio promedio de los productos de cada categoría</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT categoria.nombre, AVG(producto.precio) AS precio_promedio
+FROM categoria
+INNER JOIN producto ON categoria.id_categoria = producto.id_categoria
+GROUP BY categoria.nombre
+ORDER BY precio_promedio DESC;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_19.png" alt="Resultado de la consulta 19" width="800">
+</p>
+
+<hr>
+
+##### 📝 Consulta 6
+
+<p>
+<strong style="color:#1b2d49">Cuál es el producto más caro de cada categoría</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT categoria.nombre, MAX(producto.precio) AS precio_maximo
+FROM categoria
+INNER JOIN producto ON categoria.id_categoria = producto.id_categoria
+GROUP BY categoria.nombre;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_20.png" alt="Resultado de la consulta 20" width="800">
+</p>
+
+<hr>
+
+##### 📝 Consulta 7
+
+<p>
+<strong style="color:#1b2d49">Mostrar la capacidad mínima de las mesas de cada salón</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT salon.nombre, MIN(mesa.capacidad) AS capacidad_minima
+FROM salon
+INNER JOIN mesa ON salon.id_salon = mesa.id_salon
+GROUP BY salon.nombre;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_21.png" alt="Resultado de la consulta 21" width="800">
+</p>
+
+<hr>
+
+
+##### 📝 Consulta 8
+
+<p>
+<strong style="color:#1b2d49">Mostrar qué productos fueron solicitados en la mesa número 8 con cantidad, precio unitario y total por producto</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT mesa.numero AS numero_de_mesa, producto.nombre,
+       SUM(detalle_de_pedido.cantidad) AS cantidad_solicitada,
+       detalle_de_pedido.precio_unitario,
+       SUM(detalle_de_pedido.cantidad * detalle_de_pedido.precio_unitario) AS total
+FROM detalle_de_pedido
+INNER JOIN pedido ON detalle_de_pedido.id_pedido = pedido.id_pedido
+INNER JOIN producto ON detalle_de_pedido.id_producto = producto.id_producto
+INNER JOIN mesa ON pedido.id_mesa = mesa.id_mesa
+WHERE mesa.numero = 8
+GROUP BY mesa.numero, producto.nombre, detalle_de_pedido.precio_unitario;
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_28.png" alt="Resultado de la consulta 28" width="800">
+</p>
+
+<hr>
+
 
 ## 📊  Modificación de Datos (INSERT / UPDATE / DELETE)
 
