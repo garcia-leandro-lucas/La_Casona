@@ -88,7 +88,6 @@ FROM producto
 WHERE id_producto IN (SELECT id_producto FROM detalle_de_pedido);
 
 --Consulta 5
-
 --Mostrar los mozos que registraron pedidos en estado 'Cobrado'
 
 SELECT nombre, apellido FROM mozo
