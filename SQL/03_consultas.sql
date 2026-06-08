@@ -2,9 +2,8 @@ USE La_Casona_Restaurante;
 
 --Consultas SQL(JOINs entre múltiples tablas)
 
---Consulta 1
---Productos de Entradas con precio mayor a $3000, o que pertenezcan a Pizzas
-
+--consulta 1
+--Mostrar el nombre de la categoría, el nombre del producto, la cantidad solicitada y la fecha del pedido.
 SELECT categoria.nombre,producto.nombre,detalle_de_pedido.cantidad, pedido.fecha FROM categoria
 INNER JOIN producto ON categoria.id_categoria = producto.id_categoria
 INNER JOIN detalle_de_pedido ON producto.id_producto = detalle_de_pedido.id_producto
@@ -148,6 +147,12 @@ WHERE p.id_categoria = ( SELECT id_categoria FROM producto
     GROUP BY id_categoria
     ORDER BY AVG(precio) DESC
     LIMIT 1 );
+
+--consulta 12
+--Productos de Entradas con precio mayor a $3000, o que pertenezcan a Pizzas
+
+SELECT producto.nombre, producto.precio, categoria.nombre AS categoría FROM producto
+JOIN categoria ON producto.id_categoria = categoria.id_categoria WHERE (categoria.nombre = 'Entradas' AND producto.precio > 3000) OR categoria.nombre = 'Pizzas';
 
 ---Consultas SQL(Ordenamientos (ORDER BY))
 
