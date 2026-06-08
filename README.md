@@ -82,7 +82,7 @@ Finalmente, el diseño es escalable y permite incorporar futuras funcionalidades
 
 ##### 📝 Consulta 1
 <p>
-    <strong style="color:#1b2d49">Productos de Entradas con precio mayor a $3000, o que pertenezcan a Pizzas</strong>
+    <strong style="color:#1b2d49">Mostrar el nombre de la categoría, el nombre del producto, la cantidad solicitada y la fecha del pedido.</strong>
 </p>
 
 ##### 💻 Código SQL
@@ -485,6 +485,21 @@ WHERE p.id_categoria = ( SELECT id_categoria FROM producto
 <p align="center">
   <img src="images/consultas/consulta_29.png" alt="Resultado de la consulta 29" width="800">
 </p>
+
+<hr>
+
+##### 📝 Consulta 12
+
+<p>
+<strong style="color:#1b2d49">Productos de Entradas con precio mayor a $3000, o que pertenezcan a Pizzas</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT producto.nombre, producto.precio, categoria.nombre AS categoría FROM producto
+JOIN categoria ON producto.id_categoria = categoria.id_categoria WHERE (categoria.nombre = 'Entradas' AND producto.precio > 3000) OR categoria.nombre = 'Pizzas';
+```
 
 <hr>
 
