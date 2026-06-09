@@ -154,6 +154,20 @@ WHERE p.id_categoria = ( SELECT id_categoria FROM producto
 SELECT producto.nombre, producto.precio, categoria.nombre AS categoría FROM producto
 JOIN categoria ON producto.id_categoria = categoria.id_categoria WHERE (categoria.nombre = 'Entradas' AND producto.precio > 3000) OR categoria.nombre = 'Pizzas';
 
+-- consulta 13
+-- Mostrar los productos que no contengan la palabra "Jamon y Queso" en el nombre y que pertenezcan a la categoría "Entradas"
+
+SELECT p.nombre, p.descripcion, p.precio FROM producto p 
+INNER JOIN categoria c
+ON p.id_categoria = c.id_categoria
+WHERE p.nombre NOT LIKE '%Jamon y Queso%' AND c.nombre = 'Entradas';
+
+-- consulta 14
+-- Listar los pedidos cuyo estado sea "Pendiente" o "En preparación" y que hayan sido realizados durante una fecha determinada.
+SELECT * FROM pedido
+WHERE (estado = 'Pendiente' OR estado = 'En preparación') AND fecha = '2026-06-02';
+
+
 -- Consultas SQL(Ordenamientos (ORDER BY))
 
 -- Consulta 1
@@ -293,3 +307,5 @@ INNER JOIN producto ON detalle_de_pedido.id_producto = producto.id_producto
 INNER JOIN mesa ON pedido.id_mesa = mesa.id_mesa
 WHERE mesa.numero = 8
 GROUP BY mesa.numero, producto.nombre, detalle_de_pedido.precio_unitario;
+
+

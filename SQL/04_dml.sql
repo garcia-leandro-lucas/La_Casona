@@ -17,24 +17,33 @@ INSERT INTO producto (nombre, descripcion, precio, id_categoria)
 	VALUES ('Menú Ejecutivo Milanesa 1', 'Milanesa con guarnición y bebida incluida', 4500,
 	(SELECT id_categoria FROM categoria WHERE nombre = 'Menú Ejecutivo'));
 
+-- DML 3
+-- Se registra un nuevo mozo en el sistema
+INSERT INTO mozo (nombre, apellido, legajo, apodo) VALUES ('Pedro', 'Gonzalez', 1009, 'Pepo');
+
+-- DML 4
+-- Se registra un nuevo producto en el sistema
+INSERT INTO producto (nombre, descripcion, precio, id_categoria) VALUES ('Tiramisú', 'Postre italiano con café, crema y cacao', 6500, 7);
+
+
 --
 -- UPDATE
 --
--- DML 3
+-- DML 1
 -- Se cambia un pedido de "Pendiente" a "En preparación"
 select * from pedido;
 UPDATE pedido SET estado = 'En preparación' WHERE id_pedido = 4;
 
--- DML 4
+-- DML 2
 -- Modificar el nombre de una categoría (Ensaladas -> Ensaladas y Verdes)
 select * from categoria;
 UPDATE categoria SET nombre = 'Ensaladas y Verdes' WHERE id_categoria = 6;
 
--- DML 5
+-- DML 3
 -- Aumentar en 2 la capacidad de las mesas del salón "Terraza"
 UPDATE mesa SET capacidad = capacidad + 2 WHERE id_salon IN (SELECT id_salon FROM salon WHERE nombre = 'Terraza');
 
--- DML 6
+-- DML 4
 -- Modificar el precio de todos los productos de la categoría "Bebidas", aumentando un 10%.
 UPDATE producto SET precio = precio * 1.10
 WHERE id_categoria IN (SELECT id_categoria FROM categoria WHERE nombre = 'Bebidas');
@@ -43,12 +52,17 @@ WHERE id_categoria IN (SELECT id_categoria FROM categoria WHERE nombre = 'Bebida
 -- DELETE
 --
 
--- DML 7
+-- DML 1
 -- Eliminar los pedidos que se encuentren en estado "Cancelado".
 Select * from pedido;
 DELETE FROM pedido
 WHERE estado = "Cancelado";
 
--- DML 8
+-- DML 2
 -- Eliminar las mesas que no tengan pedidos registrados
 DELETE FROM mesa WHERE id_mesa NOT IN (SELECT id_mesa FROM pedido);
+
+-- DML 3
+-- Eliminar los pedidos cancelados realizados antes del 1 de junio de 2026.
+DELETE FROM pedido WHERE estado = 'Cancelado' AND fecha < '2026-06-01';
+

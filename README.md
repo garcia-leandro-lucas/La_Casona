@@ -500,6 +500,53 @@ WHERE p.id_categoria = ( SELECT id_categoria FROM producto
 SELECT producto.nombre, producto.precio, categoria.nombre AS categoría FROM producto
 JOIN categoria ON producto.id_categoria = categoria.id_categoria WHERE (categoria.nombre = 'Entradas' AND producto.precio > 3000) OR categoria.nombre = 'Pizzas';
 ```
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_47.png" alt="Resultado de la consulta 29" width="800">
+</p>
+
+<hr>
+
+##### 📝 Consulta 13
+
+<p>
+<strong style="color:#1b2d49">Mostrar los productos que no contengan la palabra "Jamon y Queso" en el nombre y que pertenezcan a la categoría "Entradas"</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT p.nombre, p.descripcion, p.precio FROM producto p 
+INNER JOIN categoria c
+ON p.id_categoria = c.id_categoria
+WHERE p.nombre NOT LIKE '%Jamon y Queso%' AND c.nombre = 'Entradas';
+```
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_48.png" alt="Resultado de la consulta 29" width="800">
+</p>
+
+<hr>
+
+##### 📝 Consulta 14
+
+<p>
+<strong style="color:#1b2d49">Listar los pedidos cuyo estado sea "Pendiente" o "En preparación" y que hayan sido realizados durante una fecha determinada.</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+SELECT * FROM pedido
+WHERE (estado = 'Pendiente' OR estado = 'En preparación') AND fecha = '2026-06-02';
+```
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_49.png" alt="Resultado de la consulta 29" width="800">
+</p>
 
 <hr>
 
@@ -651,7 +698,7 @@ ORDER BY total_generado DESC;
 ##### 📷 Resultado
 
 <p align="center">
-  <img src="images/consultas/consulta_31.png" alt="Resultado de la consulta 31" width="800">
+  <img src="images/consultas/consulta_31.png" width="800">
 </p>
 
 <hr>
@@ -877,7 +924,7 @@ VALUES (13, 6, 'Libre', 1);
 ##### 📷 Resultado
 
 <p align="center">
-  <img src="images/consultas/consulta_32.png" alt="Resultado de la consulta 31" width="800">
+  <img src="images/consultas/consulta_32.png" width="800">
 </p>
 
 <hr>
@@ -902,15 +949,55 @@ INSERT INTO producto (nombre, descripcion, precio, id_categoria)
 ##### 📷 Resultado
 
 <p align="center">
-  <img src="images/consultas/consulta_33.png" alt="Resultado de la consulta 31" width="800">
-  <img src="images/consultas/consulta_34.png" alt="Resultado de la consulta 31" width="800">
+  <img src="images/consultas/consulta_33.png" width="800">
+  <img src="images/consultas/consulta_34.png" width="800">
+</p>
+
+<hr>
+
+##### 📝 DML 3
+<p>
+<strong style="color:#1b2d49">Se registra un nuevo mozo en el sistema</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+INSERT INTO mozo (nombre, apellido, legajo, apodo) VALUES ('Pedro', 'Gonzalez', 1009, 'Pepo');
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_52.png" width="800">
+  <img src="images/consultas/consulta_53.png" width="800">
+</p>
+
+<hr>
+
+##### 📝 DML 4
+<p>
+<strong style="color:#1b2d49">Se registra un nuevo producto en el sistema</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+INSERT INTO producto (nombre, descripcion, precio, id_categoria) VALUES ('Tiramisú', 'Postre italiano con café, crema y cacao', 6500, 7);
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <img src="images/consultas/consulta_54.png" width="800">
+  <img src="images/consultas/consulta_55.png" width="800">
 </p>
 
 <hr>
 
 ### ✏️ UPDATE
 
-##### 📝 DML 3
+##### 📝 DML 1
 <p>
 <strong style="color:#1b2d49">Se cambia un pedido de "Pendiente" a "En preparación"</strong>
 </p>
@@ -925,16 +1012,16 @@ UPDATE pedido SET estado = 'En preparación' WHERE id_pedido = 4;
 
 <p align="center">
   <p>Antes:</p>
-  <img src="images/consultas/consulta_35.png" alt="Resultado de la consulta 31" width="800">
+  <img src="images/consultas/consulta_35.png" width="800">
   <br>
   <br>
   <p>Despues:</p>
-  <img src="images/consultas/consulta_36.png" alt="Resultado de la consulta 31" width="800">
+  <img src="images/consultas/consulta_36.png" width="800">
 </p>
 
 <hr>
 
-##### 📝 DML 4
+##### 📝 DML 2
 <p>
 <strong style="color:#1b2d49">Modificar el nombre de una categoría (Ensaladas -> Ensaladas y Verdes)</strong>
 </p>
@@ -949,16 +1036,16 @@ UPDATE categoria SET nombre = 'Ensaladas y Verdes' WHERE id_categoria = 6;
 
 <p align="center">
   <p>Antes:</p>
-  <img src="images/consultas/consulta_37.png" alt="Resultado de la consulta 31" width="800">
+  <img src="images/consultas/consulta_37.png" width="800">
   <br>
   <br>
   <p>Despues:</p>
-  <img src="images/consultas/consulta_38.png" alt="Resultado de la consulta 31" width="800">
+  <img src="images/consultas/consulta_38.png" width="800">
 </p>
 
 <hr>
 
-##### 📝 DML 5
+##### 📝 DML 3
 <p>
 <strong style="color:#1b2d49">Aumentar en 2 la capacidad de las mesas del salón "Terraza"</strong>
 </p>
@@ -973,16 +1060,16 @@ UPDATE mesa SET capacidad = capacidad + 2 WHERE id_salon IN (SELECT id_salon FRO
 
 <p align="center">
   <p>Antes:</p>
-  <img src="images/consultas/consulta_39.png" alt="Resultado de la consulta 31" width="800">
+  <img src="images/consultas/consulta_39.png" width="800">
   <br>
   <br>
   <p>Despues:</p>
-  <img src="images/consultas/consulta_40.png" alt="Resultado de la consulta 31" width="800">
+  <img src="images/consultas/consulta_40.png" width="800">
 </p>
 
 <hr>
 
-##### 📝 DML 6
+##### 📝 DML 4
 <p>
 <strong style="color:#1b2d49">Modificar el precio de todos los productos de la categoría "Bebidas", aumentando un 10%</strong>
 </p>
@@ -998,18 +1085,18 @@ WHERE id_categoria IN (SELECT id_categoria FROM categoria WHERE nombre = 'Bebida
 
 <p align="center">
   <p>Antes:</p>
-  <img src="images/consultas/consulta_41.png" alt="Resultado de la consulta 31" width="800">
+  <img src="images/consultas/consulta_41.png" width="800">
   <br>
   <br>
   <p>Despues:</p>
-  <img src="images/consultas/consulta_42.png" alt="Resultado de la consulta 31" width="800">
+  <img src="images/consultas/consulta_42.png" width="800">
 </p>
 
 <hr>
 
 ### 🗑️ DELETE
 
-##### 📝 DML 7
+##### 📝 DML 1
 <p>
 <strong style="color:#1b2d49">Eliminar los pedidos que se encuentren en estado "Cancelado"</strong>
 </p>
@@ -1025,16 +1112,16 @@ WHERE estado = "Cancelado";
 
 <p align="center">
   <p>Antes:</p>
-  <img src="images/consultas/consulta_43.png" alt="Resultado de la consulta 31" width="800">
+  <img src="images/consultas/consulta_43.png" width="800">
   <br>
   <br>
   <p>Despues:</p>
-  <img src="images/consultas/consulta_44.png" alt="Resultado de la consulta 31" width="800">
+  <img src="images/consultas/consulta_44.png" width="800">
 </p>
 
 <hr>
 
-##### 📝 DML 8
+##### 📝 DML 2
 <p>
 <strong style="color:#1b2d49">Eliminar las mesas que no tengan pedidos registrados</strong>
 </p>
@@ -1049,11 +1136,35 @@ DELETE FROM mesa WHERE id_mesa NOT IN (SELECT id_mesa FROM pedido);
 
 <p align="center">
   <p>Antes:</p>
-  <img src="images/consultas/consulta_45.png" alt="Resultado de la consulta 31" width="800">
+  <img src="images/consultas/consulta_45.png" width="800">
   <br>
   <br>
   <p>Despues:</p>
-  <img src="images/consultas/consulta_46.png" alt="Resultado de la consulta 31" width="800">
+  <img src="images/consultas/consulta_46.png" width="800">
+</p>
+
+<hr>
+
+##### 📝 DML 3
+<p>
+<strong style="color:#1b2d49">Eliminar los pedidos cancelados realizados antes del 1 de junio de 2026</strong>
+</p>
+
+##### 💻 Código SQL
+
+```sql
+DELETE FROM pedido WHERE estado = 'Cancelado' AND fecha < '2026-06-01';
+```
+
+##### 📷 Resultado
+
+<p align="center">
+  <p>Antes:</p>
+  <img src="images/consultas/consulta_50.png" width="800">
+  <br>
+  <br>
+  <p>Despues:</p>
+  <img src="images/consultas/consulta_51.png" width="800">
 </p>
 
 <hr>
