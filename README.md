@@ -82,7 +82,7 @@ Finalmente, el diseño es escalable y permite incorporar futuras funcionalidades
 
 ##### 📝 Consulta 1
 <p>
-    <strong style="color:#1b2d49">Mostrar el nombre de la categoría, el nombre del producto, la cantidad solicitada y la fecha del pedido.</strong>
+    <strong style="color:#1b2d49">Mostrar el nombre de la categoría, el nombre del producto, la cantidad solicitada y la fecha del pedido</strong>
 </p>
 
 ##### 💻 Código SQL
@@ -230,7 +230,7 @@ INNER JOIN mesa ON pedido.id_mesa = mesa.id_mesa;
 
 ##### 📝 Consulta 1
 <p>
-    <strong style="color:#1b2d49">Productos de Bebidas o Postres cuyo precio no sea $1500 ni $2000, de mayor a menor precio.</strong>
+    <strong style="color:#1b2d49">Productos de Bebidas o Postres cuyo precio no sea $1500 ni $2000, de mayor a menor precio</strong>
 </p>
 
 ##### 💻 Código SQL
@@ -864,7 +864,7 @@ GROUP BY mesa.numero, producto.nombre, detalle_de_pedido.precio_unitario;
 
 ##### 📝 DML 1
 <p>
-<strong style="color:#1b2d49">Se registra una nueva mesa con capacidad 6 y estado "Libre" en el Salón Principal (id_salon = 1).</strong>
+<strong style="color:#1b2d49">Se registra una nueva mesa con capacidad 6 y estado "Libre" en el Salón Principal (id_salon = 1)</strong>
 </p>
 
 ##### 💻 Código SQL
@@ -884,7 +884,7 @@ VALUES (13, 6, 'Libre', 1);
 
 ##### 📝 DML 2
 <p>
-<strong style="color:#1b2d49">Se crear una nueva categoría llamada "Menú Ejecutivo" e insertar al menos un producto asociados, incluyendo su descripción, precio y categoría correspondiente.</strong>
+<strong style="color:#1b2d49">Se crear una nueva categoría llamada "Menú Ejecutivo" e insertar al menos un producto asociados, incluyendo su descripción, precio y categoría correspondiente</strong>
 </p>
 
 ##### 💻 Código SQL
@@ -984,7 +984,7 @@ UPDATE mesa SET capacidad = capacidad + 2 WHERE id_salon IN (SELECT id_salon FRO
 
 ##### 📝 DML 6
 <p>
-<strong style="color:#1b2d49">Modificar el precio de todos los productos de la categoría "Bebidas", aumentando un 10%.</strong>
+<strong style="color:#1b2d49">Modificar el precio de todos los productos de la categoría "Bebidas", aumentando un 10%</strong>
 </p>
 
 ##### 💻 Código SQL
@@ -1011,7 +1011,7 @@ WHERE id_categoria IN (SELECT id_categoria FROM categoria WHERE nombre = 'Bebida
 
 ##### 📝 DML 7
 <p>
-<strong style="color:#1b2d49">Eliminar los pedidos que se encuentren en estado "Cancelado".</strong>
+<strong style="color:#1b2d49">Eliminar los pedidos que se encuentren en estado "Cancelado"</strong>
 </p>
 
 ##### 💻 Código SQL
@@ -1036,7 +1036,7 @@ WHERE estado = "Cancelado";
 
 ##### 📝 DML 8
 <p>
-<strong style="color:#1b2d49">Eliminar las mesas que no tengan pedidos registrados.</strong>
+<strong style="color:#1b2d49">Eliminar las mesas que no tengan pedidos registrados</strong>
 </p>
 
 ##### 💻 Código SQL
