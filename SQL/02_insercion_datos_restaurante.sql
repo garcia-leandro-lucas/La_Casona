@@ -75,7 +75,9 @@ INSERT INTO mesa (numero, capacidad, estado, id_salon) VALUES
 (9,4,'Libre',3),
 (10,8,'Libre',3),
 (11,6,'Libre',4),
-(12,8,'Reservada',4);
+(12,8,'Reservada',4),
+(13, 4, 'Libre', 1),
+(14, 6, 'Libre', 2);
 
 --
 -- Inserción de mozo

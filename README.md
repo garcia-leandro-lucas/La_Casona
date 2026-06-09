@@ -1045,4 +1045,15 @@ WHERE estado = "Cancelado";
 DELETE FROM mesa WHERE id_mesa NOT IN (SELECT id_mesa FROM pedido);
 ```
 
+##### 📷 Resultado
+
+<p align="center">
+  <p>Antes:</p>
+  <img src="images/consultas/consulta_45.png" alt="Resultado de la consulta 31" width="800">
+  <br>
+  <br>
+  <p>Despues:</p>
+  <img src="images/consultas/consulta_46.png" alt="Resultado de la consulta 31" width="800">
+</p>
+
 <hr>
