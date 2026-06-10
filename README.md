@@ -65,8 +65,8 @@ Finalmente, el diseño es escalable y permite incorporar futuras funcionalidades
 ```text
 📂 La_Casona
  ┣ 📂 Diagramas
- ┃ ┣ 📄 DER-La-Casona.pdf
- ┃ ┗ 📄 diagrama_conceptual_la_casona.pdf
+ ┃ ┣ 📄 01_diagrama_conceptual-La-Casona.pdf
+ ┃ ┗ 📄 02_DER-La-Casona.pdf
  ┣ 📂 images
  ┣ 📂 SQL
  ┃ ┣ 📄 01_creacion_de_tablas_restaurante.sql
